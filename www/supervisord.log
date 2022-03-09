@@ -47,3 +47,37 @@
 2022-03-09 06:03:24,217 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 2022-03-09 06:03:24,218 INFO success: npm-dev entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 2022-03-09 06:03:24,218 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-03-09 06:19:39,219 INFO reaped unknown pid 239 (exit status 0)
+2022-03-09 06:21:24,209 INFO reaped unknown pid 303 (exit status 0)
+2022-03-09 06:21:43,232 INFO reaped unknown pid 381 (exit status 0)
+2022-03-09 06:40:31,973 WARN received SIGQUIT indicating exit request
+2022-03-09 06:40:31,974 INFO waiting for laravel-worker_00, npm-dev, php-fpm to die
+2022-03-09 06:40:31,979 INFO stopped: php-fpm (exit status 0)
+2022-03-09 06:40:32,982 INFO stopped: npm-dev (terminated by SIGTERM)
+2022-03-09 06:40:32,986 INFO stopped: laravel-worker_00 (terminated by SIGTERM)
+2022-03-09 06:40:42,102 INFO supervisord started with pid 1
+2022-03-09 06:40:43,107 INFO spawned: 'laravel-worker_00' with pid 8
+2022-03-09 06:40:43,109 INFO spawned: 'npm-dev' with pid 9
+2022-03-09 06:40:43,111 INFO spawned: 'php-fpm' with pid 10
+2022-03-09 06:40:44,333 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-03-09 06:40:44,334 INFO success: npm-dev entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-03-09 06:40:44,334 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-03-09 06:40:56,584 WARN received SIGQUIT indicating exit request
+2022-03-09 06:40:56,585 INFO waiting for laravel-worker_00, npm-dev, php-fpm to die
+2022-03-09 06:40:56,588 INFO stopped: php-fpm (exit status 0)
+2022-03-09 06:40:57,590 INFO stopped: npm-dev (terminated by SIGTERM)
+2022-03-09 06:40:57,592 INFO stopped: laravel-worker_00 (terminated by SIGTERM)
+2022-03-09 06:41:03,940 INFO supervisord started with pid 1
+2022-03-09 06:41:04,942 INFO spawned: 'laravel-worker_00' with pid 8
+2022-03-09 06:41:04,943 INFO spawned: 'npm-dev' with pid 9
+2022-03-09 06:41:04,945 INFO spawned: 'php-fpm' with pid 10
+2022-03-09 06:41:06,151 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-03-09 06:41:06,151 INFO success: npm-dev entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-03-09 06:41:06,151 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-03-09 06:55:06,244 INFO supervisord started with pid 1
+2022-03-09 06:55:07,251 INFO spawned: 'laravel-worker_00' with pid 7
+2022-03-09 06:55:07,253 INFO spawned: 'npm-dev' with pid 8
+2022-03-09 06:55:07,254 INFO spawned: 'php-fpm' with pid 9
+2022-03-09 06:55:08,481 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-03-09 06:55:08,481 INFO success: npm-dev entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-03-09 06:55:08,481 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
