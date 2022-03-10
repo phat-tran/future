@@ -125,6 +125,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | API Credentials
+    |--------------------------------------------------------------------------
+    |
+    | The set of credentials is used to get access token to make payment to API web services.
+    |
+    */
+    'client_secret' => env('API_CLIENT_SECRET', null),
+    'client_id'     => env('API_CLIENT_ID', null),
+    'grant_type'    => env('API_GRANT_TYPE', null),
+    'username'      => env('API_USERNAME', null),
+    'password'      => env('API_PASSWORD', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |
