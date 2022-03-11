@@ -28,9 +28,11 @@ export default class DashboardComponent extends Vue {
             .post(url, this.creditCard)
             .then((response: AxiosResponse) => {
                 this.result = response.data;
+                this.error = null;
             })
             .catch((error) => {
                 this.error = error.response.data;
+                this.result = null;
             });
     }
 }
