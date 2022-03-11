@@ -24,6 +24,9 @@ docker-compose exec app npm install
 docker-compose exec app npm run dev
 docker-compose exec app php artisan migrate
 docker-compose exec app php artisan db:seed
+```
+
+Go to http://localhost:8000 to register an account with email and password.
 
 # Setup API.
 docker-compose exec api composer install
@@ -47,13 +50,14 @@ docker-compose exec api php artisan passport:client --password
 
 Copy configurations below to the end of `www/.env`. \
 Change `<client id>` and `<client secret>` to the generated client id and client secret above. 
+Change `<registered email>` and `<registered password>` to the registered email and password above. 
 ```
 API_HOST=http://nginx_api
 API_CLIENT_SECRET=<client secret>
 API_CLIENT_ID=<client id>
 API_GRANT_TYPE=password
-API_USERNAME=api.user@future.com
-API_PASSWORD=AComplexPassword
+API_USERNAME=<registered email>
+API_PASSWORD=<registered password>
 ```
 
 ## Run
