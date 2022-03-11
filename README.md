@@ -6,8 +6,14 @@
 ## Installation
 Open terminal. Navigate to current directory.
 
-- Copy `api/.env-example` to `api/.env`.
-- Copy `app/.env-example` to `app/.env`.
+- Copy `api/.env-example` to `api/.env`
+```
+cp api/.env-example api/.env
+```
+- Copy `www/.env-example` to `www/.env`.
+```
+cp www/.env-example www/.env
+```
 
 Run commands below to build api and app and initial setups:
 
@@ -28,14 +34,12 @@ docker-compose exec app php artisan db:seed
 
 Go to http://localhost:8000 to register an account with email and password.
 
+```
 # Setup API.
 docker-compose exec api composer install
 docker-compose exec api php artisan key:generate
 docker-compose exec api php artisan passport:keys
-docker-compose exec api npm install
-docker-compose exec api npm run dev
 docker-compose exec api php artisan migrate
-docker-compose exec api php artisan db:seed
 
 # Create a passport client password grant.
 docker-compose exec api php artisan passport:client --password
@@ -49,7 +53,7 @@ docker-compose exec api php artisan passport:client --password
 ```
 
 Copy configurations below to the end of `www/.env`. \
-Change `<client id>` and `<client secret>` to the generated client id and client secret above. 
+Change `<client id>` and `<client secret>` to the generated client id and client secret above. \
 Change `<registered email>` and `<registered password>` to the registered email and password above. 
 ```
 API_HOST=http://nginx_api
@@ -59,6 +63,11 @@ API_GRANT_TYPE=password
 API_USERNAME=<registered email>
 API_PASSWORD=<registered password>
 ```
+
+Clear app .env config:
+```
+docker-compose exec app php artisan config:clear
+````
 
 ## Run
 Navigate to http://localhost:8000 for the app.
