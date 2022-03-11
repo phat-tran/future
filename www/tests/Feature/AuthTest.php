@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Constants\Constant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
@@ -9,9 +10,6 @@ use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    const API_URL             = 'http://nginx_api';
-    const API_OAUTH_TOKEN_URL = self::API_URL . '/oauth/token';
-
     /**
      * Tests web authentication.
      *
@@ -40,12 +38,12 @@ class AuthTest extends TestCase
      */
     public function testApiAuth()
     {
-        $response = Http::post(self::API_OAUTH_TOKEN_URL, [
-            'client_secret' => config('app.client_secret'),
-            'client_id'     => config('app.client_id'),
-            'grant_type'    => config('app.grant_type'),
-            'username'      => config('app.username'),
-            'password'      => config('app.password'),
+        $response = Http::post(config('app.api_host') . Constant::API_OAUTH_TOKEN_URL, [
+            'client_secret' => config('app.api_client_secret'),
+            'client_id'     => config('app.api_client_id'),
+            'grant_type'    => config('app.api_grant_type'),
+            'username'      => config('app.api_username'),
+            'password'      => config('app.api_password'),
         ]);
 
         $this->assertTrue($response->status() === 200);

@@ -131,11 +131,12 @@ return [
     | The set of credentials is used to get access token to make payment to API web services.
     |
     */
-    'client_secret' => env('API_CLIENT_SECRET', null),
-    'client_id'     => env('API_CLIENT_ID', null),
-    'grant_type'    => env('API_GRANT_TYPE', null),
-    'username'      => env('API_USERNAME', null),
-    'password'      => env('API_PASSWORD', null),
+    'api_host'          => env('API_HOST', null),
+    'api_client_secret' => env('API_CLIENT_SECRET', null),
+    'api_client_id'     => env('API_CLIENT_ID', null),
+    'api_grant_type'    => env('API_GRANT_TYPE', null),
+    'api_username'      => env('API_USERNAME', null),
+    'api_password'      => env('API_PASSWORD', null),
 
     /*
     |--------------------------------------------------------------------------

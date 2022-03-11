@@ -8,7 +8,6 @@ use App\Models\CreditCard;
 use App\Models\CreditCardNumberOnly;
 use App\Models\Payment;
 use App\Models\PaymentResponse;
-use Carbon\Carbon;
 use DateTime;
 use DOMDocument;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,9 +19,6 @@ use Faker\Factory;
 
 class PaymentTest extends TestCase
 {
-    const API_PAYMENT_NAB_URL = AuthTest::API_URL . '/payment/nab';
-    const API_PAYMENT_ANZ_URL = AuthTest::API_URL . '/payment/anz';
-
     /**
      * The bearer token key.
      *
@@ -37,12 +33,12 @@ class PaymentTest extends TestCase
     {
         parent::setUp();
 
-        $response = Http::post(AuthTest::API_OAUTH_TOKEN_URL, [
-            'client_secret' => config('app.client_secret'),
-            'client_id'     => config('app.client_id'),
-            'grant_type'    => config('app.grant_type'),
-            'username'      => config('app.username'),
-            'password'      => config('app.password'),
+        $response = Http::post(config('app.api_host') . Constant::API_OAUTH_TOKEN_URL, [
+            'client_secret' => config('app.api_client_secret'),
+            'client_id'     => config('app.api_client_id'),
+            'grant_type'    => config('app.api_grant_type'),
+            'username'      => config('app.api_username'),
+            'password'      => config('app.api_password'),
         ]);
 
         $this->token = $response->json()['access_token'];
@@ -56,30 +52,20 @@ class PaymentTest extends TestCase
     public function testPaymentNab()
     {
         $this->assertNotNull($this->token);
-        $url = self::API_PAYMENT_NAB_URL;
+        $url = config('app.api_host') . Constant::API_PAYMENT_NAB_URL;
 
         // Mocks some fake objects to make API request.
 
-        $creditCard           = self::fakeCreditCard();
-        $requestPayment       = self::fakeRequestPayment($creditCard);
-        $requestPaymentXml    = self::fakeRequestPaymentXml($requestPayment);
-        $creditCardNumberOnly = self::fakeCreditCardNumberOnly($creditCard);
-        $responsePayment      = self::fakeResponsePayment($creditCardNumberOnly, $requestPayment->amount);
-        $responsePaymentXml   = self::fakeResponsePaymentXml($responsePayment);
+        $creditCard        = self::fakeCreditCard();
+        $requestPayment    = self::fakeRequestPayment($creditCard);
+        $requestPaymentXml = self::fakeRequestPaymentXml($requestPayment);
 
         // Set headers.
 
         $headers = [
-            'Content-Type'  => 'text/xml;charset=utf-8',
+            'Content-Type'  => 'text/html; charset=UTF-8',
             'Authorization' => 'Bearer ' . $this->token,
         ];
-
-        // Fake the response for the purpose of testing the testing code.
-        // TODO: Remove the fake Http response once the API is up.
-
-        Http::fake([
-            $url => Http::response($responsePaymentXml, 200, $headers),
-        ]);
 
         // Now post the request to receive the fake response.
 
@@ -94,8 +80,7 @@ class PaymentTest extends TestCase
         // Assertions. Test the card number and the amount we requested are the same with the returned response.
 
         $this->assertTrue($response->status() === 200);
-        $this->assertTrue($response->header('Content-Type') === 'text/xml;charset=utf-8');
-        $this->assertXmlStringEqualsXmlString($responsePaymentXml, $response->body());
+        $this->assertTrue($response->header('Content-Type') === 'text/html; charset=UTF-8');
 
         /** @var PaymentResponse $xml */
         $xml = simplexml_load_string($response->body());
@@ -112,18 +97,15 @@ class PaymentTest extends TestCase
      *
      * @return void
      */
-    public function testPaymentANZ()
+    public function testPaymentAnz()
     {
-        $url = self::API_PAYMENT_ANZ_URL;
+        $url = config('app.api_host') . Constant::API_PAYMENT_ANZ_URL;
 
         // Mocks some fake objects to make API request.
 
-        $creditCard           = self::fakeCreditCard();
-        $requestPayment       = self::fakeRequestPayment($creditCard);
-        $requestPaymentJson   = self::fakeRequestPaymentJson($requestPayment);
-        $creditCardNumberOnly = self::fakeCreditCardNumberOnly($creditCard);
-        $responsePayment      = self::fakeResponsePayment($creditCardNumberOnly, $requestPayment->amount);
-        $responsePaymentJson  = self::fakeResponsePaymentJson($responsePayment);
+        $creditCard         = self::fakeCreditCard();
+        $requestPayment     = self::fakeRequestPayment($creditCard);
+        $requestPaymentJson = self::fakeRequestPaymentJson($requestPayment);
 
         // Set headers.
 
@@ -131,13 +113,6 @@ class PaymentTest extends TestCase
             'Content-Type'  => 'application/json',
             'Authorization' => 'Bearer ' . $this->token,
         ];
-
-        // Fake the response for the purpose of testing the testing code.
-        // TODO: Remove the fake Http response once the API is up.
-
-        Http::fake([
-            $url => Http::response($responsePaymentJson, 200, $headers),
-        ]);
 
         // Now post the request to receive the fake response.
 
@@ -153,7 +128,6 @@ class PaymentTest extends TestCase
 
         $this->assertTrue($response->status() === 200);
         $this->assertTrue($response->header('Content-Type') === 'application/json');
-        $this->assertEqualsCanonicalizing($responsePaymentJson, json_decode($response->body(), true));
 
         /** @var PaymentResponse $json */
         $json = json_decode($response->body(), false);
@@ -282,12 +256,14 @@ class PaymentTest extends TestCase
         $cardNumber = $xml->createElement(CreditCard::CARD_NUMBER, $payment->from->card_number);
         $from->appendChild($cardNumber);
         $root->appendChild($from);
-        $amount      = $xml->createElement(PaymentResponse::AMOUNT, $payment->amount);
-        $merchantId  = $xml->createElement(PaymentResponse::TRANSACTION_NUMBER, $payment->transaction_number);
-        $merchantKey = $xml->createElement(PaymentResponse::TRANSACTION_TIME, $payment->transaction_time);
+        $amount            = $xml->createElement(PaymentResponse::AMOUNT, $payment->amount);
+        $transactionNumber = $xml->createElement(PaymentResponse::TRANSACTION_NUMBER,
+            $payment->transaction_number);
+        $transactionTime   = $xml->createElement(PaymentResponse::TRANSACTION_TIME,
+            $payment->transaction_time);
         $root->appendChild($amount);
-        $root->appendChild($merchantId);
-        $root->appendChild($merchantKey);
+        $root->appendChild($transactionNumber);
+        $root->appendChild($transactionTime);
         $xml->appendChild($root);
 
         return $xml->saveXML();
