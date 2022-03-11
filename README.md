@@ -17,9 +17,18 @@ docker-compose build api
 docker-compose build app
 docker-compose up -d
 
+# Setup App.
+docker-compose exec app composer install
+docker-compose exec app php artisan key:generate
+docker-compose exec app npm install
+docker-compose exec app npm run dev
+docker-compose exec app php artisan migrate
+docker-compose exec app php artisan db:seed
+
 # Setup API.
 docker-compose exec api composer install
 docker-compose exec api php artisan key:generate
+docker-compose exec api php artisan passport:keys
 docker-compose exec api npm install
 docker-compose exec api npm run dev
 docker-compose exec api php artisan migrate
@@ -45,16 +54,6 @@ API_CLIENT_ID=<client id>
 API_GRANT_TYPE=password
 API_USERNAME=api.user@future.com
 API_PASSWORD=AComplexPassword
-```
-
-```
-# Setup App.
-docker-compose exec app composer install
-docker-compose exec app php artisan key:generate
-docker-compose exec app npm install
-docker-compose exec app npm run dev
-docker-compose exec app php artisan migrate
-docker-compose exec app php artisan db:seed
 ```
 
 ## Run
