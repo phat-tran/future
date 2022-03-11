@@ -2,3 +2,5 @@
 *.yml
 !docker-compose.yml
 data
+supervisord.log
+supervisord.pid
