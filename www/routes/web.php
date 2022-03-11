@@ -20,3 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/payment/nab', [App\Http\Controllers\PaymentController::class, 'paymentNab']);
+Route::post('/payment/anz', [App\Http\Controllers\PaymentController::class, 'paymentAnz']);
+
